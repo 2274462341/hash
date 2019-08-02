@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <a href="#/home">home</a>
+    <a href="#/index">index</a>
+    <a href="#/aa">aa</a>
+    <div id="content"></div>
+
+</body>
+<script>
+    class Router {
+        constructor({ routes }) {
+            this.routes = routes;
+            this.paths = {};
+            this.init();
+            this.routes.forEach(item => {
+                this.paths[item.path] = function () {
+                    document.getElementById("content").innerHTML = item.component;
+                }
+            });
+        }
+        init() {
+            // window.addEventListener("load", this.updatehash.bind(this))
+            window.addEventListener("hashchange", this.updatehash.bind(this))
+        }
+        updatehash() {
+            console.log(window.location)
+            let pathRes = window.location.hash.slice(1);
+            this.paths[pathRes]();
+        }
+    }
+    new Router({
+        routes: [
+            {
+                path: '/home',
+                component: 'home'
+            },
+            {
+                path: '/index',
+                component: 'index'
+            }, {
+                path: '/aa',
+                component: 'aa'
+            }
+        ]
+    })
+</script>
+
+</html>
